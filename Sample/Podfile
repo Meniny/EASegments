@@ -1,0 +1,40 @@
+source 'https://github.com/CocoaPods/Specs.git'
+project './Sample.xcodeproj'
+
+use_frameworks!
+
+inhibit_all_warnings!
+
+pre_install do |installer|
+
+end
+
+# Abstract ==== ==============================
+
+abstract_target 'All' do
+
+    pod 'EASegments', :path => '../'
+
+    post_install do |installer|
+
+        installer.pods_project.targets.each do |target|
+            target.build_configurations.each do |config|
+                if config.build_settings['SWIFT_VERSION'].nil? == false
+                    config.build_settings['SWIFT_VERSION'] = '4.1'
+                end
+            end
+        end
+
+        installer.pods_project.build_configurations.each do |config|
+            if !config.name.include?("Release")
+                config.build_settings['SWIFT_OPTIMIZATION_LEVEL'] = '-Owholemodule'
+            end
+        end
+    end
+
+    target 'Sample' do
+        platform :ios, '9.0'
+        # Nothing
+    end
+
+end

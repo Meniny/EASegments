@@ -1,0 +1,4 @@
+source 'http://gems.ruby-china.org/'
+
+ruby "2.3.3"
+gem 'cocoapods', '~>1.5.0'

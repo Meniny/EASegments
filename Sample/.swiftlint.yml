@@ -1,0 +1,103 @@
+# --------------------------------------
+disabled_rules: # Rules can be disabled, to mark a rule as disabled, please enter below:
+  - type_name # e.g. typealias startWithALowerLetterTypeName = String
+  - identifier_name # e.g. var contains_non_alphanumeric_characters, _underlineStartedName
+  - shorthand_operator # e.g. abc = abc + 1
+  - line_length # A line witch is too long
+  - cyclomatic_complexity # A function witch is to complexity, e.g. too many parameters
+  - trailing_whitespace # Lines should not have trailing whitespace
+  - trailing_newline # Files should have a single trailing newline
+  - todo # FIXMEs should be avoided
+  - redundant_string_enum_value # String enum values can be omitted when they are equal to the enumcase name
+  - function_parameter_count # Function should have 5 parameters or less
+  - multiple_closures_with_trailing_closure # Trailing closure syntax should not be used when passing more than one closure argument
+  - file_length # File should contain 400 lines or less
+  - nesting # Types should be nested at most 1 level deep
+  - vertical_whitespace
+  - operator_whitespace
+
+# --------------------------------------
+opt_in_rules: # `opt_in_rules` are disabled by default, to mark a rule as opt-in, please enter below:
+  - fatal_error_message
+
+# --------------------------------------
+#whitelist_rules: # Acts as a whitelist, only the rules specified in this list will be enabled. Can not be specified alongside `disabled_rules` or `opt_in_rules`.
+
+# --------------------------------------
+#included: # # paths to include during linting. `--path` is ignored if present.
+
+# --------------------------------------
+excluded: # Paths to ignore during linting. Takes precedence over `included`.
+  - Carthage
+  - Pods
+
+# --------------------------------------
+# configurable rules can be customized from this configuration file
+# binary rules can set their severity level
+force_cast: warning # e.g. 123 as! Data
+force_try: # e.g. try! someThrowsFunction()
+    severity: warning
+type_body_length:
+    warning: 300
+    error:   400
+file_length:
+    warning: 1000
+    error:   1500
+function_body_length:
+    warning: 100
+    error:   250
+
+# --------------------------------------
+custom_rules:
+    new_line_after_method_signature: # rule identifier
+        included: ".*\\.swift" # regex that defines paths to include during linting. optional.
+        excluded: ".*\\.yml" # regex that defines paths to exclude during linting. optional
+        name: "New line after method signature" # rule name. optional.
+        regex: "(\\{(\\n\\s*){3,}\\w)" # matching pattern
+        match_kinds: # SyntaxKinds to match. optional.
+            - argument
+            - attribute.builtin
+            - attribute.id
+            - buildconfig.id
+            - buildconfig.keyword
+            - comment
+            - comment.mark
+            - comment.url
+            - doccomment
+            - doccomment.field
+            - identifier
+            - keyword
+            - number
+            - objectliteral
+            - parameter
+            - placeholder
+            - string
+            - string_interpolation_anchor
+            - typeidentifier
+        message: "No new line after curly braces and before code." # violation message. optional.
+        severity: warning # violation severity. optional.
+
+    error_comment:
+        included: ".*\\.swift"
+        excluded: ".*\\.yml"
+        name: "⁉️ ERROR"
+        regex: "// (ERROR|FATAL):"
+        match_kinds:
+            - comment
+        message: "You HAVE TO fix this ERROR."
+        severity: error
+
+    unnecessary_floating_zero:
+        included: ".*\\.swift"
+        excluded: ".*\\.yml"
+        name: "Unnecessary floating zero"
+        regex: "(?<!(iOS|macOS|watchOS|tvOS)\\s)(?<!\\d)\\d+\\.0+"
+        match_kinds:
+            - number
+        message: "This trailing zero is unnecessary"
+        severity: warning
+
+# --------------------------------------
+reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit, html, emoji)
+#output_file: "swiftlint.result.json" # The path of the output file (optional)
+
