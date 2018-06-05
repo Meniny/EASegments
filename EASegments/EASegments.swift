@@ -11,11 +11,9 @@ import UIKit
 // MARK: - EASegmentsRoundedLayer
 
 open class EASegmentsRoundedLayer: CALayer {
-
     override open var bounds: CGRect {
         didSet { cornerRadius = bounds.height / 2.0 }
     }
-    
 }
 
 public protocol EASegmentsDelegate: class {
@@ -281,7 +279,6 @@ open class EASegments: UIControl {
             selectedLabel.frame = frame
         }
     }
-    
 }
 
 // MARK: - UIGestureRecognizerDelegate
@@ -294,5 +291,53 @@ extension EASegments: UIGestureRecognizerDelegate {
         }
         return super.gestureRecognizerShouldBegin(gestureRecognizer)
     }
+}
+
+extension EASegments {
     
+    public struct Appearance: Equatable {
+        public var backgroundColor: UIColor
+        public var selectedBackgroundColor: UIColor
+        
+        public var titleColor: UIColor
+        public var selectedTitleColor: UIColor
+        
+        public var font: UIFont
+        
+        public init(backgroundColor: UIColor,
+                    selected selectedBackgroundColor: UIColor,
+                    titleColor: UIColor,
+                    selected selectedTitleColor: UIColor,
+                    font: UIFont) {
+            self.backgroundColor = backgroundColor
+            self.selectedBackgroundColor = selectedBackgroundColor
+            self.titleColor = titleColor
+            self.selectedTitleColor = selectedTitleColor
+            self.font = font
+        }
+        
+        private static let defaultFont: UIFont = UIFont.systemFont(ofSize: 16)
+        private static let defaultBackground: UIColor = #colorLiteral(red: 0.92, green: 0.38, blue: 0.25, alpha: 1.00)
+        private static let defaultForeground: UIColor = UIColor.white
+        
+        public static var `default`: Appearance = {
+            return Appearance.init(backgroundColor: Appearance.defaultBackground,
+                                   selected: Appearance.defaultForeground,
+                                   titleColor: Appearance.defaultForeground,
+                                   selected: Appearance.defaultBackground,
+                                   font: Appearance.defaultFont)
+        }()
+    }
+    
+    public convenience init(titles: [String],
+                            delegate: EASegmentsDelegate?,
+                            appearance: Appearance = .default) {
+        self.init(titles: titles)
+        self.delegate = delegate
+        self.backgroundColor = appearance.backgroundColor
+        self.selectedBackgroundColor = appearance.selectedBackgroundColor
+        self.titleColor = appearance.titleColor
+        self.selectedTitleColor = appearance.selectedTitleColor
+        self.titleFont = appearance.font
+    }
 }

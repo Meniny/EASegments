@@ -4,7 +4,7 @@
 :mail: admin@meniny.cn
 :desc: a segments control for iOS
 :icon: {name}.png
-:version: 1.0.0
+:version: 1.0.1
 :na: N/A
 :ios: 8.0
 :macos: {na}
